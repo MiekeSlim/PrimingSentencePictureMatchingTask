@@ -18,12 +18,16 @@ Here, I will describe the functionality of each chunk of code in the `main.js` f
 ```
 PennController.ResetPrefix(null);
 PennController.DebugOff();
+AddHost("https://users.ugent.be/~mslim/SK_images/");
+
 PennController.SetCounter("Counter");
 
-PennController.Sequence("Checks", "Counter", "Subject", "Welcome", "Consent", "trials", "Ctest", "QuestionnairePage", "DebriefingPage", "Send", "Closing")
+PennController.Sequence("Checks", "Counter", "Welcome", "Consent", "trials", "Ctest", "QuestionnairePage", "DebriefingPage", "Send", "Closing")
 ```
 
 In this preamble, we specify the order of the elements in the experiment (using the `Sequence` command). Importantly, the participants will first see some questions to check whether they are actually eligible to do this experiment (they need to be native speakers of Estonian and do this experiment on a web browser, so not on a mobile phone). If they meet these requirements (i.e., they said 'yes' on both questions), the `SetCounter` command is launched. This command sets the internat counter of PCIbex, which keeps track of how many participants started the experiment. We will see later that this is relevant for counterbalancing.
+
+Another important part in this preamble is the `AddHost()` command. All images are saved on an external webserver (hosted by the UGent), and this command tells PCIbex where to find that server. 
 
 ### 'Checks' section
 ```
@@ -79,4 +83,23 @@ PennController("Checks",
             .wait()
         )         
 )
+```
+This piece of code is used to show the two pre-experimental questions to the participants. First, the participants are asked whether they are native speakers of Estonian. Then, they are asked whether they are doing the experiment on a desktop/laptop. They will give these answers by clicking on the 'yes' and 'no' buttons. In case they select 'no' (which we tested using the `test.selected(getButton())` command), the participants are redirected to a screen that tells them that they are not eligible to participate in this experiment. If they answer 'yes', the code will execute the full script. 
+
+### 'Welcome' section
+```
+PennController("Welcome",
+    newTextInput("Subject", randomnumber = Math.floor(Math.random()*1000000))             
+    ,
+    newText("WelcomeText", "<p>Hello and thank you for participating in this study! </p><p> </p><p> This experiment is an experiment in English, but for this           experiment it is important that you are a native speaker of <strong> Estonian </strong>. This because this survey focuses on Estonian-English bilingual             language comprehension. You will be asked to match a picture with an English sentence. <b> Please read each sentence carefully, before you select the the           picture. </b> If you believe that multiple pictures can be matched to the sentence, please choose your spontaneous preference. After this task, you will be         asked to give some information on your language background. </p><p> </p><p>  If you would like more details about the findings of this experiment, please send     me an email on mieke.slim@ugent.be, and I will send you a report of the findings. Note that taking part in this experiment is entirely voluntary and refusal       or withdrawal will involve no penalty or loss, now or in the future. </p><p> </p><p> </p><p> </p><p> I (Mieke Slim) can be contacted via mieke.slim@ugent.be       if there is anything that is not clear or if you would like more information. </p><p> </p><p> Your answers are stored anonymously, and personal details can         only be accessed by me (Mieke Slim). The results of this survey will disseminated in academic journals and at conferences. Results are  presented in terms of       groups of individuals. If any individual data are presented, the data will be completely anonymous, without any means of identifying the individuals involved.     </p><p> </p><p> The project has received ethical approval from the Research Ethics Committee of the Faculty of Modern and Medieval Languages at the University     of Cambridge (UK).</p><p> </p><p> I you have any questions, please email me on mieke.slim@ugent.be</p><p> <br> <b> Sometimes, a screen that says that the           survey is loading may appear. If this happens, please wait for a couple of seconds. This never takes long. </b> ")
+    ,
+    newCanvas( "myCanvas", 500, 800)
+            .settings.add(0,0, getText("WelcomeText"))
+            .print()
+   ,
+   newButton("finish", "Continue")
+        .print()
+        .wait()  
+   )
+   .log( "Subject" , getVar("Subject") )    
 ```
