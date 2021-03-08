@@ -84,12 +84,16 @@ PennController("Checks",
         )         
 )
 ```
-This piece of code is used to show the two pre-experimental questions to the participants. First, the participants are asked whether they are native speakers of Estonian. Then, they are asked whether they are doing the experiment on a desktop/laptop. They will give these answers by clicking on the 'yes' and 'no' buttons. In case they select 'no' (which we tested using the `test.selected(getButton())` command), the participants are redirected to a screen that tells them that they are not eligible to participate in this experiment. If they answer 'yes', the code will execute the full script. 
+This piece of code is used to show the two pre-experimental questions to the participants. First, the participants are asked whether they are native speakers of Estonian. Then, they are asked whether they are doing the experiment on a desktop/laptop. They will give these answers by clicking on the 'yes' and 'no' buttons. In case they select 'no' (which was tested using the `test.selected(getButton())` command), the participants are redirected to a screen that tells them that they are not eligible to participate in this experiment. If they answer 'yes', the code will execute the full script. 
 
 ### 'Welcome' section
 ```
 PennController("Welcome",
     newTextInput("Subject", randomnumber = Math.floor(Math.random()*1000000))             
+    ,
+    newVar("Subject")
+        .settings.global()
+        .set( getTextInput("Subject") )
     ,
     newText("WelcomeText", "<p>Hello and thank you for participating in this study! </p><p> </p><p> This experiment is an experiment in English, but for this           experiment it is important that you are a native speaker of <strong> Estonian </strong>. This because this survey focuses on Estonian-English bilingual             language comprehension. You will be asked to match a picture with an English sentence. <b> Please read each sentence carefully, before you select the the           picture. </b> If you believe that multiple pictures can be matched to the sentence, please choose your spontaneous preference. After this task, you will be         asked to give some information on your language background. </p><p> </p><p>  If you would like more details about the findings of this experiment, please send     me an email on mieke.slim@ugent.be, and I will send you a report of the findings. Note that taking part in this experiment is entirely voluntary and refusal       or withdrawal will involve no penalty or loss, now or in the future. </p><p> </p><p> </p><p> </p><p> I (Mieke Slim) can be contacted via mieke.slim@ugent.be       if there is anything that is not clear or if you would like more information. </p><p> </p><p> Your answers are stored anonymously, and personal details can         only be accessed by me (Mieke Slim). The results of this survey will disseminated in academic journals and at conferences. Results are  presented in terms of       groups of individuals. If any individual data are presented, the data will be completely anonymous, without any means of identifying the individuals involved.     </p><p> </p><p> The project has received ethical approval from the Research Ethics Committee of the Faculty of Modern and Medieval Languages at the University     of Cambridge (UK).</p><p> </p><p> I you have any questions, please email me on mieke.slim@ugent.be</p><p> <br> <b> Sometimes, a screen that says that the           survey is loading may appear. If this happens, please wait for a couple of seconds. This never takes long. </b> ")
     ,
@@ -103,3 +107,6 @@ PennController("Welcome",
    )
    .log( "Subject" , getVar("Subject") )    
 ```
+This welcome page is pretty straightforward: The participants are informed about the study. Note that I use html commands such as `<b>` and `<\b>` to make up the text. The text is shown in a `canvas()` element, so it's nicely centred in the screen. The participants continue to the next page by clicking on a 'continue' button. 
+
+In this 'welcome' section, we also generate a random Subject ID for each participant. This is done by using javascript's `Math.random()` command. This creates a random number between 0 and 1. We multiply this random number by 1000000, and round it to the nearest integer using the `Math.floor()` command. We save this number as a variable by using PCIbex' `newVar()` command. Note how this bit of code shows that 'bare' javascript can be used within the PCIbex environment quite easily. 
