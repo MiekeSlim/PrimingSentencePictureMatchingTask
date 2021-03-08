@@ -109,4 +109,66 @@ PennController("Welcome",
 ```
 This welcome page is pretty straightforward: The participants are informed about the study. Note that I use html commands such as `<b>` and `<\b>` to make up the text. The text is shown in a `canvas()` element, so it's nicely centred in the screen. The participants continue to the next page by clicking on a 'continue' button. 
 
-In this 'welcome' section, we also generate a random Subject ID for each participant. This is done by using javascript's `Math.random()` command. This creates a random number between 0 and 1. We multiply this random number by 1000000, and round it to the nearest integer using the `Math.floor()` command. We save this number as a variable by using PCIbex' `newVar()` command. Note how this bit of code shows that 'bare' javascript can be used within the PCIbex environment quite easily. 
+In this 'welcome' section, we also generate a random Subject ID for each participant. This is done by using javascript's `Math.random()` command. This creates a random number between 0 and 1. We multiply this random number by 1000000, and round it to the nearest integer using the `Math.floor()` command. We save this number as a variable by using PCIbex' `newVar()` command. Note how this bit of code shows that 'bare' javascript can be used within the PCIbex environment quite easily.
+
+### Consent section
+```
+PennController("Consent",
+        newText("ConsentText", "<p> <b> Please read the following carefully! </b> </p><p>I understand that my participation is voluntary and that I am free to    withdraw at any time, without giving any reason, and without my rights being affected. </p><p> I understand that any data that are collected will be used and stored anonymously, in accordance with the Data Protection Act. Results are normally presented in terms of groups of individuals. If any individual data were presented, the data would be completely anonymous, without any means of identifying the individuals involved. </p><p> I understand that these data may be used in analyses, publications, and conference presentations by researchers at the University of Cambridge and their collaborators at other research institutions. I give permission for these individuals to have access to these data.</p>")
+        ,
+        newCanvas( "myCanvas", 300, 600)
+            .settings.add(0,0, getText("ConsentText"))
+            .print()
+        ,
+        newButton("I have read an approved the information on this page, continue")
+            .settings.center()
+            .print()
+            .wait()    
+        )
+ ```
+ This bit of code displays the consent text, participants can give their consent (and continue to the experiment) by clicking a button. 
+ 
+ ### Trial structure
+```
+    PennController.Template("trials.csv",
+        variable => PennController("trials", 
+            newText("sentence", variable.Sentence)
+                .settings.center()
+                .settings.css("font-size", "30px")
+                .settings.bold()
+                .print()
+            ,
+            newImage("picture1", variable.Picture1)
+                .settings.size(350,350)
+                .settings.css( "border" , "solid 1px black" )
+            ,
+            newImage("picture2", variable.Picture2)
+                .settings.size(350,350)
+                .settings.css( "border" , "solid 1px black" )                                   
+            ,
+            newCanvas(1000,600)
+                .settings.center()
+                .settings.add(50   , 100,   getImage("picture1"))
+                .settings.add(550   , 100,   getImage("picture2"))
+                .print()
+            ,
+            newSelector()
+                .settings.add( getImage("picture1") , getImage("picture2") )
+//                .shuffle()
+                .settings.log()
+                .wait()
+        )
+    .log( "Subject"         , getVar("Subject")         )     
+    .log( "Group"           , variable.Group            )
+    .log( "StimulusType"    , variable.Stimuli_Type     )                            
+    .log( "Sentence"        , variable.Sentence         )
+    .log( "Item"            , variable.Item             )
+    .log( "Picture1"        , variable.Picture1         )                           
+    .log( "Experiment"      , variable.CorPic           ) 
+    .log( "Picture2"        , variable.Picture2         )
+    .log( "PrimeCondition"  , variable.PrimeCondition   )                            
+)
+```
+ 
+ 
+ 
