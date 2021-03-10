@@ -20,9 +20,9 @@ The *chunk_includes* folder in this repository contains the following files: *co
 | Variable | Description |
 |----------|-------------|
 |Group     | Whether the trial is in list A or list B (which are two counterbalanced lists). Using PCIbex' internal counter, the first participant will be assigned to Group A, the second to Group B, the third to Group A again, and so on. The trials with value A in this column will be shown to the participants in group A, and the trials with value B in this column will be shown to the participants in group B. |
-|Stimuli_Type | Whether this is a filler, prime, or target trial |
+|Stimuli_Type | Whether the trial is a filler, prime, or target |
 |Item| Each trial has a unique code, specified here |
-|PrimeCondition| Whether the trial is presented in the universal-wide or negation-wide condition (only relevant for primes and targets |
+|PrimeCondition| Whether the trial is presented in the universal-wide or negation-wide condition (only relevant for primes and targets) |
 |Sentence| The sentence shown in the trial |
 |Picture 1| Filename of the leftmost picture |
 |Picture 2| Filename of the rightmost picture |
