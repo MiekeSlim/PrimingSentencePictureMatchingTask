@@ -11,6 +11,7 @@ There are a couple of characteristics of this experiment that are important for 
 - Estonian spelling requires quite some special characters (such as the *õ*), these characters need to be given in html. 
 - The experiment requires a lot of pictures, which takes up too much space on the PCIbex Farm. Therefore, the pictures are hosted at a distant server.
 - The left-right position of the pictures is counterbalanced (so not completely randomized). It would actually be easier to randomize the position of the pictures, but I decided to counterbalance because I did this in the previous experiments that were conducted in this study (which were not programmed in PCIbex, but administered over Qualtrics).
+- The experiment requires a lot of pictures, which takes up too much server space on the PCIbex Farm. Therefore, the pictures are hosted at a distant server.
 
 ## Contents of this GitHub repository
 All the files needed to implement this experiment are stored in a GitHub repository (https://github.com/MiekeSlim/PrimingSentencePictureMatchingTask.git). This repository contains two folders: *chunk_includes* and *data_includes*. All resources needed for your experiment (such as image files, trial templates, or html files) are stored within the *chunk_includes* folder. The *data_includes* folder contains the `main.js` file, which is the main script in which you will be working most of the time (which I will describe in more detail below).
@@ -23,7 +24,7 @@ The *chunk_includes* folder in this repository contains the following files: *co
 |Stimuli_Type | Whether the trial is a filler, prime, or target |
 |Item| Each trial has a unique code, specified here |
 |PrimeCondition| Whether the trial is presented in the universal-wide or negation-wide condition (only relevant for primes and targets) |
-|Sentence| The sentence shown in the trial |
+|Sentence| The sentence shown in the trial (note the use of html to describe special characters in Estonian |
 |Picture 1| Filename of the leftmost picture |
 |Picture 2| Filename of the rightmost picture |
 |CorPic| Whether the matching picture (for fillers and primes) or the universal-wide picture (for targets) was shown on the left or on the right|
