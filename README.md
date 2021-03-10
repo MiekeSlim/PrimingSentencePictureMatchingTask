@@ -171,7 +171,7 @@ newTrial("Consent",
 This bit of code displays the consent text, participants can give their consent by checking a box in the form. This form is created in html, as I find it easier to create forms this way. Those who have done the advanced tutorial on the PCIbex website may recognize this bit of code ;-).
  
  ### Trial structure
-Now we get to the 'heart' of the experiments: the trials. The bit of code below can be read as a blueprint for each trial, in which some pieces of required information are still missing - namely those parts in the trial that vary from trial to trial (such as the sentence and the pictures). PCIbex will fill in these variables with the values specified in the *trials.csv* file described above (since the `.Template()` command).
+Now we get to the 'heart' of the experiment: the presentation of the trials. The bit of code below can be read as a blueprint for each trial, in which some pieces of required information are still missing - namely those parts in the trial that vary from trial to trial (such as the sentence and the pictures). PCIbex will fill in these variables with the values specified in the *trials.csv* file described above (using the `.Template()` command).
  
 ```
  PennController.Template("trials.csv",
