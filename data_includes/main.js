@@ -1,149 +1,151 @@
 PennController.ResetPrefix(null);
 PennController.DebugOff()
 PennController.SetCounter("Counter")
-PennController.Sequence("Checks", "Counter", "Subject", "Welcome", "Consent", "trials", "Ctest", "QuestionnairePage", "DebriefingPage", "Send", "Closing")
 
-// Check for L1
-PennController("Checks",
-    newText("Two short questions::")
-        .print()
+PennController.Sequence("CheckPreload", "BrowserCheck", "L1Check", "Counter", "Welcome", "Consent", "Trials", "Questionnaire", "Send", "FinalPage")
+
+AddHost("https://users.ugent.be/~mslim/SK_images/");
+
+// Check preload of required files:
+CheckPreloaded("CheckPreload")
+
+// Check for Browser and L1
+newTrial("BrowserCheck",
+    newText("BrowserCheckText", "Two brief questions before we begin:<br><br>This survey only works well if it's opened on a browser on a desktop computer or laptop (so not on a mobile phone or tablet). Are you currently using a laptop or a desktop computer?")
     ,
-    newText("L1", "<br><br>Is Estonian your native language?<br><br>")
-        .print()
+    newText("NoBrowser", "No, I am using another device")
+        .css("background-color", "lightgrey")
     ,
-    newButton("yesEstonian", "Yes")
+    newText("YesBrowser", "Yes")
+        .css("background-color", "lightgrey")
     ,
-    newButton("noEstonian", "No")
-        .settings.before( getButton("yesEstonian") )
-        .print()
+    newCanvas("ChecksCanvas", "60vw" , "20vh")
+        .add("center at 50%", "top at 10%", getText("BrowserCheckText"))
+        .add("center at 20%", "top at 50%", getText("YesBrowser"))
+        .add("center at 80%", "top at 50%", getText("NoBrowser"))
+        .print("center at 50%", "top at 25%") 
     ,
-    newSelector("yesnoEstonian")
-        .settings.add( getButton("yesEstonian") , getButton("noEstonian"))
+    newSelector("yesno")
+        .settings.add( getText("YesBrowser") , getText("NoBrowser"))
         .wait()
     ,
-    getSelector("yesnoEstonian")
+    getSelector("yesno")
         .settings.log()
-        .test.selected(getButton("yesEstonian") )
+        .test.selected(getText("YesBrowser"))
         .failure(
-            newText("<br><br>For this survey, we are looking for native speakers of Estonian. Unfortunately, you won't be able to participate.<br><br>")
-                .print()
+            getCanvas("ChecksCanvas")
+                .remove()
             ,
-            newKey("SPACE")
-            .wait()
+            newCanvas("NoChrome", "60vw" , "20vh")
+                .add("center at 50%", "top at 10%", newText("Please close the experiment by closing the browser (you may ignore possible pop-up screens), and come back on a desktop computer or laptop."))
+                .print("center at 50%", "top at 25%") 
+            ,
+            newButton("waitforever")
+                .wait()
         )
-    ,
-    newText("Device", "<br><br>Are you doing this experiment on a web browser on a computer or laptop (not on a phone, iPad, etc.)?<br><br>")
-        .print()
-    ,
-    newButton("yesPC", "Yes")
-    ,
-    newButton("noPC", "No")
-        .settings.before( getButton("yesPC") )
-        .print()
-    ,
-    newSelector("yesnoPC")
-        .settings.add( getButton("yesPC") , getButton("noPC"))
-        .wait()
-    ,
-    getSelector("yesnoPC")
-        .settings.log()
-        .test.selected(getButton("yesPC") )
-        .failure(
-            newText("<br><br>Unfortunately, this experiment only works on a computer. Please close the experiment and come back on a computer or laptop. <br><br>")
-                .print()
-            ,
-            newKey("SPACE")
-            .wait()
-        )         
 )
 
-// Subject info
-   PennController("Subject",
-    defaultText
-        .print()
+newTrial("L1Check",
+    newText("L1CheckText", "Two brief questions before we begin:<br><br>To participate in this study, it is required that you are a <b>native speaker of Estonian</b>. Are you a native speaker of Estonian?")
     ,
-    newText("<p>Please enter your ProlificID </p>")
+    newText("NoL1", "No, I am not a native speaker of Estonian")
+        .css("background-color", "lightgrey")
     ,
-    newTextInput("ProlificID")
-        .print()
+    newText("YesL1", "Yes, Estonian is my first language")
+        .css("background-color", "lightgrey")
     ,
-    newTextInput("Subject", randomnumber = Math.floor(Math.random()*1000000))             
+    newCanvas("ChecksCanvas", "60vw" , "20vh")
+        .add("center at 50%", "top at 10%", getText("L1CheckText"))
+        .add("center at 20%", "top at 50%", getText("YesL1"))
+        .add("center at 80%", "top at 50%", getText("NoL1"))
+        .print("center at 50%", "top at 25%") 
     ,
-    newButton("Start")
-        .print()
+    newSelector("yesno")
+        .settings.add( getText("YesL1") , getText("NoL1"))
         .wait()
     ,
-    newVar("Subject")
-        .settings.global()
-        .set( getTextInput("Subject") )
-    ,
-    newVar("ProlificID")
-        .settings.global()
-        .set( getTextInput("ProlificID") )
-    )
-    .log( "Subject" , getVar("Subject") )
-    .log( "ProlificID" , getVar("ProlificID") )
-
+    getSelector("yesno")
+        .settings.log()
+        .test.selected(getText("YesL1"))
+        .failure(
+            getCanvas("ChecksCanvas")
+                .remove()
+            ,
+            newCanvas("NoL1", "60vw" , "20vh")
+                .add("center at 50%", "top at 10%", newText("Unfortunately, you are not eligible to participate in this study. Please close the experiment by closing the browser (you may ignore possible pop-up screens)."))
+                .print("center at 50%", "top at 25%") 
+            ,
+            newButton("waitforever")
+                .wait()
+        )
+)
 
 // Welcome
 // Instructions
-    PennController("Welcome",
-        newText("WelcomeText", "<p>Hello and thank you for participating in this study! </p><p> </p><p> This experiment is an experiment in English, but for this experiment it is important that you are a native speaker of <strong> Estonian </strong>. This because this survey focuses on Estonian-English bilingual language comprehension. You will be asked to match a picture with an English sentence. <b> Please read each sentence carefully, before you select the the picture. </b> If you believe that multiple pictures can be matched to the sentence, please choose your spontaneous preference. After this task, you will be asked to give some information on your language background. </p><p> </p><p>  If you would like more details about the findings of this experiment, please send me an email on mieke.slim@ugent.be, and I will send you a report of the findings. Note that taking part in this experiment is entirely voluntary and refusal or withdrawal will involve no penalty or loss, now or in the future. </p><p> </p><p> </p><p> </p><p> I (Mieke Slim) can be contacted via mieke.slim@ugent.be if there is anything that is not clear or if you would like more information. </p><p> </p><p> Your answers are stored anonymously, and personal details can only be accessed by me (Mieke Slim). The results of this survey will disseminated in academic journals and at conferences. Results are  presented in terms of groups of individuals. If any individual data are presented, the data will be completely anonymous, without any means of identifying the individuals involved. </p><p> </p><p> The project has received ethical approval from the Research Ethics Committee of the Faculty of Modern and Medieval Languages at the University of Cambridge (UK).</p><p> </p><p> I you have any questions, please email me on mieke.slim@ugent.be</p><p> <br> <b> Sometimes, a screen that says that the survey is loading may appear. If this happens, please wait for a couple of seconds. This never takes long. </b> ")
+newTrial("Welcome",
+    newTextInput("Subject", randomnumber = Math.floor(Math.random()*1000000))             
+    ,
+    newVar("Subject")
+        .global()
+        .set( getTextInput("Subject") )
         ,
-        newCanvas( "myCanvas", 500, 800)
-            .settings.add(0,0, getText("WelcomeText"))
-            .print()
+        newText("WelcomeText", "Hello and thank you for participating in this study! <br><br> This experiment is an partly in English and partly in Estonian. It is important that you are a native speaker of <strong> Estonian </strong>, because this survey focuses on Estonian-English bilingual language comprehension.<br><br> In each question of the survey, you will be asked to match a picture with an English sentence. <b> Please read each sentence carefully, before you select the the picture. </b> If you believe that multiple pictures can be matched to the sentence, please choose your spontaneous preference. After this task, you will be asked to give some information on your language background. <br><br> If you would like more details about the findings of this experiment, please send me an email on mieke.slim@ugent.be, and I will send you a report of the findings. Note that taking part in this experiment is entirely voluntary and refusal or withdrawal will involve no penalty or loss, now or in the future. <br><br> I (Mieke Slim) can be contacted via mieke.slim@ugent.be if there is anything that is not clear or if you would like more information. <br><br> Your answers are stored anonymously, and personal details can only be accessed by me (Mieke Slim). The results of this survey will disseminated in academic journals and at conferences. Results are  presented in terms of groups of individuals. If any individual data are presented, the data will be completely anonymous, without any means of identifying the individuals involved. <br><br> The project has received ethical approval from the Research Ethics Committee of the Faculty of Modern and Medieval Languages at the University of Cambridge (UK).<br><br> I you have any questions, please email me on mieke.slim@ugent.be <br><br> <b> Sometimes, a screen that says that the survey is loading may appear. If this happens, please wait for a couple of seconds. This never takes long. </b> ")
         ,
-        newButton("finish", "Continue")
-            .print()
-            .wait()  
+    newCanvas( "myCanvas", "60vw" , "60vh")
+        .add(0,0, getText("WelcomeText"))
+        .print()
+    ,
+    newButton("next", "Continue")
+        .center()
+        .print()
+        .wait()  
      )
-    
+     .log( "Subject" , getVar("Subject") ) 
+     
 // Consent
-    PennController("Consent",
-        newText("ConsentText", "<p> <b> Please read the following carefully! </b> </p><p>I understand that my participation is voluntary and that I am free to withdraw at any time, without giving any reason, and without my rights being affected. </p><p> I understand that any data that are collected will be used and stored anonymously, in accordance with the Data Protection Act. Results are normally presented in terms of groups of individuals. If any individual data were presented, the data would be completely anonymous, without any means of identifying the individuals involved. </p><p> I understand that these data may be used in analyses, publications, and conference presentations by researchers at the University of Cambridge and their collaborators at other research institutions. I give permission for these individuals to have access to these data.</p>")
-        ,
-        newCanvas( "myCanvas", 300, 600)
-            .settings.add(0,0, getText("ConsentText"))
-            .print()
-        ,
-        newButton("I have read an approved the information on this page, continue")
-            .settings.center()
-            .print()
-            .wait()    
+newTrial("Consent",
+    newHtml("consent_form", "consent.html")
+        .cssContainer({"width":"720px"})
+        .checkboxWarning("You must consent before continuing.")
+        .print()
+    ,
+    newButton("continue", "Continue")
+        .center()
+        .print()
+        .wait(getHtml("consent_form").test.complete()
+                  .failure(getHtml("consent_form").warn())
         )
-
+)
 
 // Implementing the Trials
-    PennController.Template("trials.csv",
-        variable => PennController("trials", 
-            newText("sentence", variable.Sentence)
-                .settings.center()
-                .settings.css("font-size", "30px")
-                .settings.bold()
-                .print()
-            ,
-            newImage("picture1", variable.Picture1)
-                .settings.size(350,350)
-                .settings.css( "border" , "solid 1px black" )
-            ,
-            newImage("picture2", variable.Picture2)
-                .settings.size(350,350)
-                .settings.css( "border" , "solid 1px black" )                                   
-            ,
-            newCanvas(1000,600)
-                .settings.center()
-                .settings.add(50   , 100,   getImage("picture1"))
-                .settings.add(550   , 100,   getImage("picture2"))
-                .print()
-            ,
-            newSelector()
-                .settings.add( getImage("picture1") , getImage("picture2") )
-//                .shuffle()
-                .settings.log()
-                .wait()
+PennController.Template("trials.csv",
+    variable => PennController("trials", 
+        newText("sentence", variable.Sentence)
+            .center()
+            .css("font-size", "30px")
+            .bold()
+            .print()
+        ,
+        newImage("picture1", variable.Picture1)
+            .size("30vh","30vh")
+            .css( "border" , "solid 1px black" )
+        ,
+        newImage("picture2", variable.Picture2)
+            .settings.size("30vh","30vh")
+            .settings.css( "border" , "solid 1px black" )                                   
+        ,
+        newCanvas("80vw","50vh")
+            .center()
+            .add("center at 35%"   , "middle at 50%",   getImage("picture1"))
+            .add("center at 65%"   , "middle at 50%",   getImage("picture2"))
+            .print()
+        ,
+        newSelector()
+            .add( getImage("picture1") , getImage("picture2") )
+            .log()
+            .wait()
         )
-    .log( "Subject"         , getVar("Subject")         )     
+    .log( "Subject"         , getVar("Subject") ) 
     .log( "Group"           , variable.Group            )
     .log( "StimulusType"    , variable.Stimuli_Type     )                            
     .log( "Sentence"        , variable.Sentence         )
@@ -154,50 +156,31 @@ PennController("Checks",
     .log( "PrimeCondition"  , variable.PrimeCondition   )                            
 )
 
-// C-test:
-PennController("Ctest",
-    newHtml("ctesttext", "ctest.html")
-        .settings.log()
+// Questionnare
+newTrial("Questionnaire",
+    newHtml("questionnaire_form", "QuestionnareIBEX_bilinguals.html")
+        .cssContainer({"width":"720px"})
         .print()
     ,
     newButton("continue", "Continue")
+        .center()
         .print()
-        .wait(
-            getHtml("ctesttext").test.complete()
-                .failure( getHtml("ctesttext").warn() )
-        )                      
+        .wait(getHtml("questionnaire_form").test.complete()
+                  .failure(getHtml("questionnaire_form").warn())
+        )
 )
-.log( "Subject", getVar("Subject")) 
 
-
-// Vragen gegevens:
-PennController("QuestionnairePage",
-    newHtml("Questionnaire", "Questionnaire.html")
-        .settings.log()
-        .print()
-    ,
-    newButton("continue", "Continue")
-        .print()
-        .wait(
-            getHtml("Questionnaire").test.complete()
-                .failure( getHtml("Questionnaire").warn() )
-        )                      
-)
-.log( "Subject", getVar("Subject")) 
-
-
+// Send the results to the server
 PennController.SendResults("Send");
 
-    PennController("Closing",
-        newText("Explanation", " <strong> PLEASE VERIFY YOUR PARTICIPANT ON PROLIFIC BY CLICKING ON THE LINK ABOVE </strong> <br><br> Dear participant, <br><br> Thank you for your participation! <br><br> In this study, we test and compare monolingual and bilingual language processing. Some of the sentences you read were ambiguous, such as <i> All the apples are not in the boxes </i>. This sentence can be interpreted as meaning that none of the apples are in the boxes, but also that not all (but some) apples are in the boxes. In this experiment, we wanted to test whether Estonian speakers might process these sentences differently than native speakers of English would. By studying this question, we will thus gain insight in how bilinguals may interpret sentences differently than native speakers would; and whether the native language of the bilingual may influence language comprehension in a second language<br><br> Do you want to know more, or receive a report of the results? Please email me on mieke.slim@ugent.be <br><br> <strong> PLEASE VERIFY YOUR PARTICIPANT ON PROLIFIC BY CLICKING ON THE LINK ABOVE </strong>. <br><br> A pop-up may appear, you can click on 'leave site'")
-        ,
-        newText("Link","<p><a href='https://app.prolific.co/submissions/complete?cc=3D5B600D'>https://app.prolific.co/submissions/complete?cc=3D5B600D</a></p>")
-        ,
-        newCanvas("Canvas", 500, 600)
-            .settings.add(0,0, getText("Link"))
-            .settings.add(0,50, getText("Explanation")) 
-            .print()
-        ,
-        newButton("void")
-            .wait()
-     )
+// Show the final page
+newTrial("FinalPage",
+    newText("FinalText", "You’ve completed the experiment. Thank you very much for your participation! <br><br>If you want to know more about the goals of this experiment or if you want to know the results once the experiment is done, feel free to get in touch with me (Mieke Slim) via mieke.slim@ugent.be. <br><br> You can close the experiment by closing the browser (please ignore any pop-up windows).")
+    ,
+    newCanvas("myCanvas", "60vw" , "60vh")
+        .settings.add("center at 50%",0, getText("FinalText"))       
+        .print("center at 50%", "top at 25%")   
+    ,
+    newButton("waitforever").wait() // Not printed: wait on this page forever
+)
+.setOption("countsForProgressBar",false)
