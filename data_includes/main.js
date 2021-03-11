@@ -95,8 +95,9 @@ newTrial("Welcome",
         .add(0,0, getText("WelcomeText"))
         .print()
     ,
-    newKey("next", "")
-        .wait()  
+     newButton("continue", "Continue")
+        .center()
+        .print() 
      )
      .log( "Subject" , getVar("Subject") ) 
      
