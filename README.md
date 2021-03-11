@@ -23,7 +23,7 @@ The *chunk_includes* folder in this repository contains the following files: *co
 |Stimuli_Type | Whether the trial is a filler, prime, or target |
 |Item| Each trial has a unique code, specified here |
 |PrimeCondition| Whether the trial is presented in the universal-wide or negation-wide condition (only relevant for primes and targets) |
-|Sentence| The sentence shown in the trial (note the use of html to describe special characters in Estonian |
+|Sentence| The sentence shown in the trial (note the use of html to describe special characters in Estonian) |
 |Picture 1| Filename of the leftmost picture |
 |Picture 2| Filename of the rightmost picture |
 |CorPic| Whether the matching picture (for fillers and primes) or the universal-wide picture (for targets) was shown on the left or on the right|
