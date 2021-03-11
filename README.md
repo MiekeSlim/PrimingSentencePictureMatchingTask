@@ -46,7 +46,7 @@ AddHost("https://users.ugent.be/~mslim/SK_images/");
 CheckPreloaded("CheckPreload")
 ```
 
-In this preamble, we specify the order of the elements in the experiment (using the `Sequence` command). Importantly, the participants will first see some questions to check whether they are actually eligible to do this experiment (they need to be native speakers of Estonian and do this experiment on a web browser, so not on a mobile phone). If they meet these requirements (i.e., they said 'yes' on both questions), the `SetCounter` command is launched. This command sets the internal counter of PCIbex, which keeps track of how many participants started the experiment. This is relevant for counterbalancing and dividing the participants over the different lists.
+In this preamble, we specify the order of the elements in the experiment (using the `Sequence` command). Importantly, the participants will first see some questions to check whether they are actually eligible to do this experiment (they need to be native speakers of Estonian and do this experiment on a desktop browser, so not on a mobile phone). If they meet these requirements (i.e., they said 'yes' on both questions), the `SetCounter` command is launched. This command sets the internal counter of PCIbex, which keeps track of how many participants started the experiment. This is relevant for counterbalancing and dividing the participants over the different lists.
 
 Another important part in this preamble is the `AddHost()` command. All images are saved on an external webserver (hosted by the UGent), and this command tells PCIbex where to find that server. 
 
