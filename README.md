@@ -63,8 +63,8 @@ newTrial("BrowserCheck",
     ,
     newCanvas("ChecksCanvas", "60vw" , "20vh")
         .add("center at 50%", "top at 10%", getText("BrowserCheckText"))
-        .add("center at 20%", "top at 50%", getText("YesBrowser"))
-        .add("center at 80%", "top at 50%", getText("NoBrowser"))
+        .add("center at 20%", "top at 60%", getText("YesBrowser"))
+        .add("center at 80%", "top at 60%", getText("NoBrowser"))
         .print("center at 50%", "top at 25%") 
     ,
     newSelector("yesno")
@@ -98,8 +98,8 @@ newTrial("L1Check",
     ,
     newCanvas("ChecksCanvas", "60vw" , "20vh")
         .add("center at 50%", "top at 10%", getText("L1CheckText"))
-        .add("center at 20%", "top at 50%", getText("YesL1"))
-        .add("center at 80%", "top at 50%", getText("NoL1"))
+        .add("center at 20%", "top at 60%", getText("YesL1"))
+        .add("center at 80%", "top at 60%", getText("NoL1"))
         .print("center at 50%", "top at 25%") 
     ,
     newSelector("yesno")
@@ -121,7 +121,6 @@ newTrial("L1Check",
                 .wait()
         )
 )
-
 ```
 This piece of code is used to show the two pre-experimental questions to the participants. First, the participants are asked whether they are native speakers of Estonian. Then, they are asked whether they are doing the experiment on a desktop/laptop. They will give these answers by clicking on the 'yes' and 'no' buttons. In case they select 'no' (which was tested using the `test.selected(getText())` command), the participants are redirected to a screen that tells them that they are not eligible to participate in this experiment. If they answer 'yes', the code will execute the full script. 
 
@@ -134,21 +133,18 @@ newTrial("Welcome",
         .global()
         .set( getTextInput("Subject") )
         ,
-        newText("WelcomeText", "Hello and thank you for participating in this study! <br><br> This experiment is an partly in English and partly in Estonian. It is important that you are a native speaker of <strong> Estonian </strong>, because this survey focuses on Estonian-English bilingual language comprehension.<br><br> In each question of the survey, you will be asked to match a picture with an English sentence. <b> Please read each sentence carefully, before you select the the picture. </b> If you believe that multiple pictures can be matched to the sentence, please choose your spontaneous preference. After this task, you will be asked to give some information on your language background. <br><br> If you would like more details about the findings of this experiment, please send me an email on mieke.slim@ugent.be, and I will send you a report of the findings. Note that taking part in this experiment is entirely voluntary and refusal or withdrawal will involve no penalty or loss, now or in the future. <br><br> I (Mieke Slim) can be contacted via mieke.slim@ugent.be if there is anything that is not clear or if you would like more information. <br><br> Your answers are stored anonymously, and personal details can only be accessed by me (Mieke Slim). The results of this survey will disseminated in academic journals and at conferences. Results are  presented in terms of groups of individuals. If any individual data are presented, the data will be completely anonymous, without any means of identifying the individuals involved. <br><br> The project has received ethical approval from the Research Ethics Committee of the Faculty of Modern and Medieval Languages at the University of Cambridge (UK).<br><br> I you have any questions, please email me on mieke.slim@ugent.be <br><br> <b> Sometimes, a screen that says that the survey is loading may appear. If this happens, please wait for a couple of seconds. This never takes long. </b> ")
+        newText("WelcomeText", "Hello and thank you for participating in this study! <br><br> This experiment is an partly in English and partly in Estonian. It is important that you are a native speaker of <strong> Estonian </strong>, because this survey focuses on Estonian-English bilingual language comprehension.<br><br> In each question of the survey, you will be asked to match a picture with an English sentence. <b> Please read each sentence carefully, before you select the the picture. </b> If you believe that multiple pictures can be matched to the sentence, please choose your spontaneous preference. After this task, you will be asked to give some information on your language background. <br><br> If you would like more details about the findings of this experiment, please send me an email on mieke.slim@ugent.be, and I will send you a report of the findings. Note that taking part in this experiment is entirely voluntary and refusal or withdrawal will involve no penalty or loss, now or in the future. <br><br> I (Mieke Slim) can be contacted via mieke.slim@ugent.be if there is anything that is not clear or if you would like more information. <br><br> Your answers are stored anonymously, and personal details can only be accessed by me (Mieke Slim). The results of this survey will disseminated in academic journals and at conferences. Results are  presented in terms of groups of individuals. If any individual data are presented, the data will be completely anonymous, without any means of identifying the individuals involved. <br><br> The project has received ethical approval from the Research Ethics Committee of the Faculty of Modern and Medieval Languages at the University of Cambridge (UK).<br><br> I you have any questions, please email me on mieke.slim@ugent.be <br><br> <b> Sometimes, a screen that says that the survey is loading may appear. If this happens, please wait for a couple of seconds. This never takes long. </b> <br><br> Press SPACE to continue to the next page ")
         ,
     newCanvas( "myCanvas", "60vw" , "60vh")
         .add(0,0, getText("WelcomeText"))
-        .print()
+        .print("center at 50%", "top at 25%")
     ,
-    newButton("next", "Continue")
-        .center()
-        .print()
+    newKey("next", "")
         .wait()  
      )
-     .log( "Subject" , getVar("Subject") ) 
-      
+     .log( "Subject" , getVar("Subject") )       
 ```
-This welcome page is pretty straightforward: The participants are informed about the study. Note that I use html commands such as `<b>` and `<\b>` to make up the text. The text is shown in a `canvas()` element, so it's nicely centred in the screen. The participants continue to the next page by clicking on a 'continue' button. 
+This welcome page is pretty straightforward: The participants are informed about the study. Note that I use html commands such as `<b>` and `<\b>` to make up the text. The text is shown in a `canvas()` element, so it's nicely centred in the screen. The participants continue to the next page by pressing the space bar.
 
 In this 'welcome' section, we also generate a random Subject ID for each participant. This is done by using javascript's `Math.random()` command. This creates a random number between 0 and 1. We multiply this random number by 1000000, and round it to the nearest integer using the `Math.floor()` command. We save this number as a variable by using PCIbex' `newVar()` command. This variable is then set as `.global()` so it will be accesible in the whole script (if it is only saved locally, it is only accessible in within the `newTrial` environment of this specific trial (i.e., the welcome page). Note how this bit of code shows that 'bare' javascript can be used within the PCIbex environment quite easily.
 
