@@ -117,7 +117,7 @@ newTrial("Consent",
 
 // Implementing the Trials
 PennController.Template("trials.csv",
-    variable => PennController("trials", 
+    variable => PennController("Trials", 
         newText("sentence", variable.Sentence)
             .center()
             .css("font-size", "30px")
