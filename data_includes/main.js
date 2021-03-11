@@ -81,7 +81,7 @@ newTrial("L1Check",
 )
 
 
-// Check for Browser and L1
+// Welcome and instructions
 newTrial("Welcome",
     newTextInput("Subject", randomnumber = Math.floor(Math.random()*1000000))             
     ,
