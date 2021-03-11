@@ -21,8 +21,8 @@ newTrial("BrowserCheck",
     ,
     newCanvas("ChecksCanvas", "60vw" , "20vh")
         .add("center at 50%", "top at 10%", getText("BrowserCheckText"))
-        .add("center at 20%", "top at 50%", getText("YesBrowser"))
-        .add("center at 80%", "top at 50%", getText("NoBrowser"))
+        .add("center at 20%", "top at 60%", getText("YesBrowser"))
+        .add("center at 80%", "top at 60%", getText("NoBrowser"))
         .print("center at 50%", "top at 25%") 
     ,
     newSelector("yesno")
@@ -56,8 +56,8 @@ newTrial("L1Check",
     ,
     newCanvas("ChecksCanvas", "60vw" , "20vh")
         .add("center at 50%", "top at 10%", getText("L1CheckText"))
-        .add("center at 20%", "top at 50%", getText("YesL1"))
-        .add("center at 80%", "top at 50%", getText("NoL1"))
+        .add("center at 20%", "top at 60%", getText("YesL1"))
+        .add("center at 80%", "top at 60%", getText("NoL1"))
         .print("center at 50%", "top at 25%") 
     ,
     newSelector("yesno")
@@ -95,9 +95,7 @@ newTrial("Welcome",
         .add(0,0, getText("WelcomeText"))
         .print()
     ,
-    newButton("next", "Continue")
-        .center()
-        .print()
+    newKey("next", "")
         .wait()  
      )
      .log( "Subject" , getVar("Subject") ) 
