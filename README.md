@@ -38,7 +38,7 @@ Here, I will describe the functionality of each chunk of code in the `main.js` f
 PennController.ResetPrefix(null);
 PennController.DebugOff()
 PennController.SetCounter("Counter")
-//PennController.Sequence("CheckPreload", "BrowserCheck", "L1Check", "Counter", "Welcome", "Consent", "trials", "Ctest", "QuestionnairePage", "DebriefingPage", "Send", "Closing")
+PennController.Sequence("CheckPreload", "BrowserCheck", "L1Check", "Counter", "Welcome", "Consent", "trials", "Ctest", "QuestionnairePage", "DebriefingPage", "Send", "Closing")
 
 AddHost("https://users.ugent.be/~mslim/SK_images/");
 
