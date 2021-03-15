@@ -1,15 +1,13 @@
 PennController.ResetPrefix(null);
 PennController.DebugOff()
 PennController.SetCounter("Counter")
-
-PennController.Sequence("CheckPreload", "BrowserCheck", "L1Check", "Counter", "Welcome", "Consent", "Trials", "Questionnaire", "Send", "FinalPage")
+//PennController.Sequence("CheckPreload", "BrowserCheck", "L1Check", "Counter", "Welcome", "Consent", "trials", "Ctest", "QuestionnairePage", "DebriefingPage", "Send", "Closing")
 
 AddHost("https://users.ugent.be/~mslim/SK_images/");
 
 // Check preload of required files:
 CheckPreloaded("CheckPreload")
 
-// Check for Browser and L1
 newTrial("BrowserCheck",
     newText("BrowserCheckText", "Two brief questions before we begin:<br><br>This survey only works well if it's opened on a browser on a desktop computer or laptop (so not on a mobile phone or tablet). Are you currently using a laptop or a desktop computer?")
     ,
@@ -80,8 +78,6 @@ newTrial("L1Check",
         )
 )
 
-
-// Welcome and instructions
 newTrial("Welcome",
     newTextInput("Subject", randomnumber = Math.floor(Math.random()*1000000))             
     ,
@@ -98,9 +94,8 @@ newTrial("Welcome",
     newKey("next", "")
         .wait()  
      )
-     .log( "Subject" , getVar("Subject") ) 
+     .log( "Subject" , getVar("Subject") )    
 
-// Consent
 newTrial("Consent",
     newHtml("consent_form", "consent.html")
         .cssContainer({"width":"720px"})
@@ -115,9 +110,8 @@ newTrial("Consent",
         )
 )
 
-// Implementing the Trials
 PennController.Template("trials.csv",
-    variable => PennController("Trials", 
+    variable => PennController("trials", 
         newText("sentence", variable.Sentence)
             .center()
             .css("font-size", "30px")
@@ -129,8 +123,8 @@ PennController.Template("trials.csv",
             .css( "border" , "solid 1px black" )
         ,
         newImage("picture2", variable.Picture2)
-            .settings.size("30vh","30vh")
-            .settings.css( "border" , "solid 1px black" )                                   
+            .size("30vh","30vh")
+            .css( "border" , "solid 1px black" )                                   
         ,
         newCanvas("80vw","50vh")
             .center()
@@ -154,7 +148,6 @@ PennController.Template("trials.csv",
     .log( "PrimeCondition"  , variable.PrimeCondition   )                            
 )
 
-// Questionnare
 newTrial("Questionnaire",
     newHtml("questionnaire_form", "QuestionnareIBEX_bilinguals.html")
         .cssContainer({"width":"720px"})
@@ -168,10 +161,8 @@ newTrial("Questionnaire",
         )
 )
 
-// Send the results to the server
-PennController.SendResults("Send");
+SendResults("Send")
 
-// Show the final page
 newTrial("FinalPage",
     newText("FinalText", "You’ve completed the experiment. Thank you very much for your participation! <br><br>If you want to know more about the goals of this experiment or if you want to know the results once the experiment is done, feel free to get in touch with me (Mieke Slim) via mieke.slim@ugent.be. <br><br> You can close the experiment by closing the browser (please ignore any pop-up windows).")
     ,
