@@ -8,76 +8,6 @@ AddHost("https://users.ugent.be/~mslim/SK_images/");
 // Check preload of required files:
 CheckPreloaded("CheckPreload")
 
-newTrial("BrowserCheck",
-    newText("BrowserCheckText", "Two brief questions before we begin:<br><br>This survey only works well if it's opened on a browser on a desktop computer or laptop (so not on a mobile phone or tablet). Are you currently using a laptop or a desktop computer?")
-    ,
-    newText("NoBrowser", "No, I am using another device")
-        .css("background-color", "lightgrey")
-    ,
-    newText("YesBrowser", "Yes")
-        .css("background-color", "lightgrey")
-    ,
-    newCanvas("ChecksCanvas", "60vw" , "20vh")
-        .add("center at 50%", "top at 10%", getText("BrowserCheckText"))
-        .add("center at 20%", "top at 60%", getText("YesBrowser"))
-        .add("center at 80%", "top at 60%", getText("NoBrowser"))
-        .print("center at 50%", "top at 25%") 
-    ,
-    newSelector("yesno")
-        .settings.add( getText("YesBrowser") , getText("NoBrowser"))
-        .wait()
-    ,
-    getSelector("yesno")
-        .settings.log()
-        .test.selected(getText("YesBrowser"))
-        .failure(
-            getCanvas("ChecksCanvas")
-                .remove()
-            ,
-            newCanvas("NoChrome", "60vw" , "20vh")
-                .add("center at 50%", "top at 10%", newText("Please close the experiment by closing the browser (you may ignore possible pop-up screens), and come back on a desktop computer or laptop."))
-                .print("center at 50%", "top at 25%") 
-            ,
-            newButton("waitforever")
-                .wait()
-        )
-)
-
-newTrial("L1Check",
-    newText("L1CheckText", "Two brief questions before we begin:<br><br>To participate in this study, it is required that you are a <b>native speaker of Estonian</b>. Are you a native speaker of Estonian?")
-    ,
-    newText("NoL1", "No, I am not a native speaker of Estonian")
-        .css("background-color", "lightgrey")
-    ,
-    newText("YesL1", "Yes, Estonian is my first language")
-        .css("background-color", "lightgrey")
-    ,
-    newCanvas("ChecksCanvas", "60vw" , "20vh")
-        .add("center at 50%", "top at 10%", getText("L1CheckText"))
-        .add("center at 20%", "top at 60%", getText("YesL1"))
-        .add("center at 80%", "top at 60%", getText("NoL1"))
-        .print("center at 50%", "top at 25%") 
-    ,
-    newSelector("yesno")
-        .settings.add( getText("YesL1") , getText("NoL1"))
-        .wait()
-    ,
-    getSelector("yesno")
-        .settings.log()
-        .test.selected(getText("YesL1"))
-        .failure(
-            getCanvas("ChecksCanvas")
-                .remove()
-            ,
-            newCanvas("NoL1", "60vw" , "20vh")
-                .add("center at 50%", "top at 10%", newText("Unfortunately, you are not eligible to participate in this study. Please close the experiment by closing the browser (you may ignore possible pop-up screens)."))
-                .print("center at 50%", "top at 25%") 
-            ,
-            newButton("waitforever")
-                .wait()
-        )
-)
-
 newTrial("Welcome",
     newTextInput("Subject", randomnumber = Math.floor(Math.random()*1000000))             
     ,
@@ -85,7 +15,7 @@ newTrial("Welcome",
         .global()
         .set( getTextInput("Subject") )
         ,
-        newText("WelcomeText", "Hello and thank you for participating in this study! <br><br> This experiment is an partly in English and partly in Estonian. It is important that you are a native speaker of <strong> Estonian </strong>, because this survey focuses on Estonian-English bilingual language comprehension.<br><br> In each question of the survey, you will be asked to match a picture with an English sentence. <b> Please read each sentence carefully, before you select the the picture. </b> If you believe that multiple pictures can be matched to the sentence, please choose your spontaneous preference. After this task, you will be asked to give some information on your language background. <br><br> If you would like more details about the findings of this experiment, please send me an email on mieke.slim@ugent.be, and I will send you a report of the findings. Note that taking part in this experiment is entirely voluntary and refusal or withdrawal will involve no penalty or loss, now or in the future. <br><br> I (Mieke Slim) can be contacted via mieke.slim@ugent.be if there is anything that is not clear or if you would like more information. <br><br> Your answers are stored anonymously, and personal details can only be accessed by me (Mieke Slim). The results of this survey will disseminated in academic journals and at conferences. Results are  presented in terms of groups of individuals. If any individual data are presented, the data will be completely anonymous, without any means of identifying the individuals involved. <br><br> The project has received ethical approval from the Research Ethics Committee of the Faculty of Modern and Medieval Languages at the University of Cambridge (UK).<br><br> I you have any questions, please email me on mieke.slim@ugent.be <br><br> <b> Sometimes, a screen that says that the survey is loading may appear. If this happens, please wait for a couple of seconds. This never takes long. </b> <br><br> Press SPACE to continue to the next page ")
+        newText("WelcomeText", "Tere ja tänan, et võtate sellest uuringust osa! <br><br>Enne kui nõustute sellest uuringust osa võtma, on oluline, et saaksite aru, miks seda uurimust läbi viiakse ja mida see endast kujutab. Palun võtke aega ja lugege järgnev informatsioon tähelepanelikult läbi ning arutage seda teistega, kui peate seda vajalikuks. Kui midagi jääb arusaamatuks või ebaselgeks võite võtta minuga (Mieke Slim) ühendust. Võtke aega, et otsustada, kas te soovite uuringus osa võtta.<br><br>See uuring on osa minu magistriõppest teoreetilise ja rakendusliku lingvistika erialal Cambridge’i ülikoolis. Selles uuringus keskendun ma mitmele ühekeelse ja kahekeelse keeletöötluse protsessile. Kui soovite rohkem detaile uurimistulemuste kohta, on teil võimalus avaldada oma e-maili aadress. Juunis, kui uurimistöö on valmis, saadan ma teile raporti tulemustega.<br><br>See eksperiment on ühekeelne katse eesti keeles. Selle eksperimendi jaoks on oluline, et eesti keel oleks teie emakeel. Teil palutakse pilt viia kokku lausega. Kui usute, et mitu pilti sobib ühe lausega, valige palun oma spontaane eelistus. Peale seda ülesannet palutakse teil anda lühikene ülevaade oma keeletausta kohta. Palun võtke sellest eksperimendist osa veebibrauseris arvutis, mitte tahvelarvutil või telefonis. Eksperimendist osa võtmine on täielikult vabatahtlik ning keeldumine või poolepealt lõpetamine ei kaasa endaga mingit karistust ega trahvi praegu või tulevikus.<br><br>Teie vastused salvestatakse anonüümselt ning isiklikud andmed on kättesaadavad ainult mulle (Mieke Slim). Uurimustulemus kirjutatakse üles minu magistriõppe väitekirjas ning on võimalus, et seda esitletakse konverentsidel või avaldatakse ajakirjades.<br><br>See projekt on saanud eetilise heakskiidu Research Ethics Committee of the Faculty of Modern and Medieval Languages at the University of Cambridge kommitteelt.Küsimuste korral pöörduge minu poole e-maili teel aadressil mieke.slim@ugent.be.")
         ,
     newCanvas( "myCanvas", "60vw" , "60vh")
         .add(0,0, getText("WelcomeText"))
@@ -164,7 +94,7 @@ newTrial("Questionnaire",
 SendResults("Send")
 
 newTrial("FinalPage",
-    newText("FinalText", "You’ve completed the experiment. Thank you very much for your participation! <br><br>If you want to know more about the goals of this experiment or if you want to know the results once the experiment is done, feel free to get in touch with me (Mieke Slim) via mieke.slim@ugent.be. <br><br> You can close the experiment by closing the browser (please ignore any pop-up windows).")
+    newText("FinalText", "See on küsimustiku lõpp. Tänan veelkord, et võtsite uuringust osa. Kui teil on küsimusi selle uurimistöö kohta, võtke minuga ühendust emailiaadressil mieke.slim@ugent.be")
     ,
     newCanvas("myCanvas", "60vw" , "60vh")
         .settings.add("center at 50%",0, getText("FinalText"))       
