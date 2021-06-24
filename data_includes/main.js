@@ -1,7 +1,6 @@
 PennController.ResetPrefix(null);
 PennController.DebugOff()
 PennController.SetCounter("Counter")
-//PennController.Sequence("CheckPreload", "BrowserCheck", "L1Check", "Counter", "Welcome", "Consent", "trials", "Ctest", "QuestionnairePage", "DebriefingPage", "Send", "Closing")
 
 AddHost("https://users.ugent.be/~mslim/SK_images/");
 
@@ -14,15 +13,15 @@ newTrial("Welcome",
     newVar("Subject")
         .global()
         .set( getTextInput("Subject") )
-        ,
-        newText("WelcomeText", "Tere ja tänan, et võtate sellest uuringust osa! <br><br>Enne kui nõustute sellest uuringust osa võtma, on oluline, et saaksite aru, miks seda uurimust läbi viiakse ja mida see endast kujutab. Palun võtke aega ja lugege järgnev informatsioon tähelepanelikult läbi ning arutage seda teistega, kui peate seda vajalikuks. Kui midagi jääb arusaamatuks või ebaselgeks võite võtta minuga (Mieke Slim) ühendust. Võtke aega, et otsustada, kas te soovite uuringus osa võtta.<br><br>See uuring on osa minu magistriõppest teoreetilise ja rakendusliku lingvistika erialal Cambridge’i ülikoolis. Selles uuringus keskendun ma mitmele ühekeelse ja kahekeelse keeletöötluse protsessile. Kui soovite rohkem detaile uurimistulemuste kohta, on teil võimalus avaldada oma e-maili aadress. Juunis, kui uurimistöö on valmis, saadan ma teile raporti tulemustega.<br><br>See eksperiment on ühekeelne katse eesti keeles. Selle eksperimendi jaoks on oluline, et eesti keel oleks teie emakeel. Teil palutakse pilt viia kokku lausega. Kui usute, et mitu pilti sobib ühe lausega, valige palun oma spontaane eelistus. Peale seda ülesannet palutakse teil anda lühikene ülevaade oma keeletausta kohta. Palun võtke sellest eksperimendist osa veebibrauseris arvutis, mitte tahvelarvutil või telefonis. Eksperimendist osa võtmine on täielikult vabatahtlik ning keeldumine või poolepealt lõpetamine ei kaasa endaga mingit karistust ega trahvi praegu või tulevikus.<br><br>Teie vastused salvestatakse anonüümselt ning isiklikud andmed on kättesaadavad ainult mulle (Mieke Slim). Uurimustulemus kirjutatakse üles minu magistriõppe väitekirjas ning on võimalus, et seda esitletakse konverentsidel või avaldatakse ajakirjades.<br><br>See projekt on saanud eetilise heakskiidu Research Ethics Committee of the Faculty of Modern and Medieval Languages at the University of Cambridge kommitteelt.Küsimuste korral pöörduge minu poole e-maili teel aadressil mieke.slim@ugent.be.")
-        ,
-    newCanvas( "myCanvas", "60vw" , "60vh")
-        .add(0,0, getText("WelcomeText"))
-        .print("center at 50%", "top at 25%")
     ,
-    newKey("next", "")
-        .wait()  
+    newHtml("Welcome", "Welcome.html")
+        .cssContainer({"width":"720px"})
+        .print()
+    ,
+    newButton("continue", "Järmige")
+        .center()
+        .print()
+        .wait()
      )
      .log( "Subject" , getVar("Subject") )    
 
@@ -32,7 +31,7 @@ newTrial("Consent",
         .checkboxWarning("You must consent before continuing.")
         .print()
     ,
-    newButton("continue", "Continue")
+    newButton("continue", "Järmige")
         .center()
         .print()
         .wait(getHtml("consent_form").test.complete()
@@ -83,7 +82,7 @@ newTrial("Questionnaire",
         .cssContainer({"width":"720px"})
         .print()
     ,
-    newButton("continue", "Continue")
+    newButton("continue", "Järmige")
         .center()
         .print()
         .wait(getHtml("questionnaire_form").test.complete()
